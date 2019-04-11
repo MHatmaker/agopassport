@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Passport-ArcGIS Example</title>
+	</head>
+	<body>
+		<% if (!user) { %>
+			<p>
+			<a href="/">Home</a> |
+			<a href="/login">Log In</a>|
+			<a href="/search">Search</a> 
+			</p>
+		<% } else { %>
+			<p>
+			<a href="/">Home</a> |
+			<a href="/account">Account</a> |
+			<a href="/query">Query</a> |
+			<a href="/search">Search</a> |
+			<a href="/listings">Listings</z> |
+			<a href="/logout">Log Out</a>
+			</p>
+		<% } %>
+	</body>
+</html>
