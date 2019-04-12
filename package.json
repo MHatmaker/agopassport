@@ -6,8 +6,8 @@
     "ejs": "*",
     "passport": "*",
     "passport-arcgis": "*"
-  }
-  "scripts": {
+  },
+  "scripts" : {
     "start": "node index.js"
   }
 }
