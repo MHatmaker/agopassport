@@ -8,3 +8,6 @@
     "passport-arcgis": "*"
   }
 }
+"scripts": {
+  "start": "node index.js"
+}
