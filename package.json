@@ -7,7 +7,7 @@
     "passport": "*",
     "passport-arcgis": "*"
   }
-}
-"scripts": {
-  "start": "node index.js"
+  "scripts": {
+    "start": "node index.js"
+  }
 }
