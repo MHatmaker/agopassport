@@ -19,6 +19,7 @@ var hurl = encodeURIComponent("https://agopassport.herokuapp.com:" + process.env
 
 console.log(process.env);
 
+console.log("env.PORT");
 console.log(process.env.PORT);
 console.log(hurl);
 //var user = undefined;
@@ -85,6 +86,8 @@ passport.use(new ArcGISStrategy({
 
 
 var app = express();
+console.log("express created, port is:");
+console.log(process.env.PORT);
 
 // configure Express
 
