@@ -18,7 +18,7 @@ var agotoken;
 var cbport = process.env.PORT || "3000";
 // var hurl = encodeURIComponent("https://agopassport.herokuapp.com:" + process.env.PORT || "3000" + "/auth/arcgis/callback");
 // var hurl = encodeURIComponent("/auth/" + cbport + "arcgis/callback");
-var hurl = "https://agopassport.herokuapp.com:" + cbport + "/auth/arcgis/callback";
+var hurl = "http://agopassport.herokuapp.com:" + cbport + "/auth/arcgis/callback";
 // var hurl = ":" + cbport + "/arcgis/callback";
 // var hurl = "/auth/arcgis/callback";
 
@@ -68,7 +68,8 @@ passport.use(new ArcGISStrategy({
     clientID: ARCGIS_CLIENT_ID,
     clientSecret: ARCGIS_CLIENT_SECRET,
     callbackURL: hurl,
-    proxy: true
+    proxy: true,
+    passReqToCallback: true
     // callbackURL: "http://localhost:3000/auth/arcgis/callback"//,
     //redirect_uri: 'urn:ietf:wg:oauth:2.0:oob'
   },
