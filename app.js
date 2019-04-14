@@ -55,7 +55,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new ArcGISStrategy({
     clientID: ARCGIS_CLIENT_ID,
     clientSecret: ARCGIS_CLIENT_SECRET,
-    callbackURL: hurl;,
+    callbackURL: hurl,
     // callbackURL: "http://localhost:3000/auth/arcgis/callback"//,
     //redirect_uri: 'urn:ietf:wg:oauth:2.0:oob'
   },
