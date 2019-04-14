@@ -107,7 +107,9 @@ console.log(process.env.PORT);
   app.use(bodyParser.json());
   app.use(methodOverride());
   app.use(session({
-    secret: 'keyboard cat'
+    secret: 'keyboard cat',
+    resave: true,
+    saveUninitialized: true
   }));
   // Initialize Passport!  Also use passport.session() middleware, to support
   // persistent login sessions (recommended).
