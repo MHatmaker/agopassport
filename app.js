@@ -15,7 +15,12 @@ var ARCGIS_CLIENT_SECRET = "c2be4fb31c054b69842040d6e09df920";
 var router = express.Router();
 var thisUser = {};
 var agotoken;
-var hurl = encodeURIComponent("https://agopassport.herokuapp.com:" + process.env.PORT + "/auth/arcgis/callback");
+var hurl = encodeURIComponent("https://agopassport.herokuapp.com:" + process.env.PORT || "3000" + "/auth/arcgis/callback");
+
+console.log(process.env);
+
+console.log(process.env.PORT);
+console.log(hurl);
 //var user = undefined;
 
 
