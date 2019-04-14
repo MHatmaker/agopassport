@@ -15,9 +15,10 @@ var ARCGIS_CLIENT_SECRET = "c2be4fb31c054b69842040d6e09df920";
 var router = express.Router();
 var thisUser = {};
 var agotoken;
-var cbport = ":" + process.env.PORT || "3000";
+var cbport = process.env.PORT || "3000";
 // var hurl = encodeURIComponent("https://agopassport.herokuapp.com:" + process.env.PORT || "3000" + "/auth/arcgis/callback");
-var hurl = encodeURIComponent("/auth/" + cbport + "arcgis/callback");
+// var hurl = encodeURIComponent("/auth/" + cbport + "arcgis/callback");
+var hurl = "https://agopassport.herokuapp.com:" + cbport + "/auth/arcgis/callback";
 
 console.log("hurl");
 console.log(hurl);
