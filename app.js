@@ -15,7 +15,7 @@ var ARCGIS_CLIENT_SECRET = "c2be4fb31c054b69842040d6e09df920";
 var router = express.Router();
 var thisUser = {};
 var agotoken;
-var hurl = "https://agopassport.herokuapp.com:" + process.env.PORT;
+var hurl = encodeURIComponent("https://agopassport.herokuapp.com:" + process.env.PORT + "/auth/arcgis/callback");
 //var user = undefined;
 
 
@@ -55,7 +55,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new ArcGISStrategy({
     clientID: ARCGIS_CLIENT_ID,
     clientSecret: ARCGIS_CLIENT_SECRET,
-    callbackURL: hurl + "/auth/arcgis/callback"//,
+    callbackURL: hurl;,
     // callbackURL: "http://localhost:3000/auth/arcgis/callback"//,
     //redirect_uri: 'urn:ietf:wg:oauth:2.0:oob'
   },
