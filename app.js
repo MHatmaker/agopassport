@@ -100,7 +100,9 @@ console.log(process.env.PORT);
   app.set('view engine', 'ejs');
   // app.use(express.logger());
   app.use(cookieParser());
-  app.use(bodyParser());
+  // app.use(bodyParser());
+  app.use(bodyParser.urlencoded());
+  app.use(bodyParser.json());
   app.use(methodOverride());
   app.use(session({
     secret: 'keyboard cat'
