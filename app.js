@@ -18,9 +18,9 @@ var agotoken;
 var cbport = process.env.PORT || "3000";
 // var hurl = encodeURIComponent("https://agopassport.herokuapp.com:" + process.env.PORT || "3000" + "/auth/arcgis/callback");
 // var hurl = encodeURIComponent("/auth/" + cbport + "arcgis/callback");
-// var hurl = "https://agopassport.herokuapp.com:" + cbport + "/auth/arcgis/callback";
+var hurl = "https://agopassport.herokuapp.com:" + cbport + "/auth/arcgis/callback";
 // var hurl = ":" + cbport + "/arcgis/callback";
-var hurl = "/auth/arcgis/callback";
+// var hurl = "/auth/arcgis/callback";
 
 console.log("hurl");
 console.log(hurl);
