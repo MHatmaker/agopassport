@@ -17,7 +17,7 @@ var thisUser = {};
 var agotoken;
 var cbport = process.env.PORT || "3000";
 // var hurl = encodeURIComponent("https://agopassport.herokuapp.com:" + process.env.PORT || "3000" + "/auth/arcgis/callback");
-var hurl = encodeURIComponent(":" + cbport + "/auth/arcgis/callback");
+var hurl = encodeURIComponent("/auth/arcgis/callback");
 
 console.log("hurl");
 console.log(hurl);
