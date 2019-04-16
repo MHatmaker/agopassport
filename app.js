@@ -160,7 +160,7 @@ app.get('/login', function(req, res, next) {
       })
     });
   })(req, res, next);
-});
+
 
 // GET /auth/arcgis
 //   Use passport.authenticate() as route middleware to authenticate the
