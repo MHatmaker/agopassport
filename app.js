@@ -160,6 +160,7 @@ app.get('/login', function(req, res, next) {
       })
     });
   })(req, res, next);
+});
 
 
 // GET /auth/arcgis
