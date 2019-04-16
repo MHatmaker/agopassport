@@ -140,12 +140,26 @@ app.get('/account', ensureAuthenticated, function(req, res) {
   });
 });
 
-app.get('/login', function(req, res) {
-  console.log('\n\nget /login\n\n');
-  console.log(req.user);
-  res.render('login', {
-    user: req.user
-  });
+// app.get('/login', function(req, res) {
+//   console.log('\n\nget /login\n\n');
+//   console.log(req.user);
+//   res.render('login', {
+//     user: req.user
+//   });
+// });
+
+app.get('/login', function(req, res, next) {
+  passport.authenticate('arcgis', function(err, user, info) {
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/login'); }
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      return res.render('login', {
+        req.user;
+      });
+      })
+    });
+  })(req, res, next);
 });
 
 // GET /auth/arcgis
