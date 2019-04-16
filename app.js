@@ -155,7 +155,7 @@ app.get('/login', function(req, res, next) {
     req.logIn(user, function(err) {
       if (err) { return next(err); }
       return res.render('login', {
-        user : user;
+        user : user
       });
       })
     });
