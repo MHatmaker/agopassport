@@ -18,7 +18,9 @@ var agotoken;
 var cbport = process.env.PORT || "3000";
 // var hurl = encodeURIComponent("https://agopassport.herokuapp.com:" + process.env.PORT || "3000" + "/auth/arcgis/callback");
 // var hurl = encodeURIComponent("/auth/" + cbport + "arcgis/callback");
-var hurl = "https://agopassport.herokuapp.com:" + cbport + "/auth/arcgis/callback";
+var hurl = cbport == '3000' ?
+  "http://localhost:3000/auth/arcgis/callback" :
+  "https://agopassport.herokuapp.com:" + cbport + "/auth/arcgis/callback";
 // var hurl = ":" + cbport + "/arcgis/callback";
 // var hurl = "/auth/arcgis/callback";
 
@@ -68,8 +70,8 @@ passport.use(new ArcGISStrategy({
     clientID: ARCGIS_CLIENT_ID,
     clientSecret: ARCGIS_CLIENT_SECRET,
     callbackURL: hurl,
-    proxy: true,
-    passReqToCallback: true
+    proxy: cbport == '3000' ? false : true
+    // passReqToCallback: true
     // callbackURL: "http://localhost:3000/auth/arcgis/callback"//,
     //redirect_uri: 'urn:ietf:wg:oauth:2.0:oob'
   },
@@ -82,7 +84,7 @@ passport.use(new ArcGISStrategy({
       // to associate the ArcGIS account with a user record in your database,
       // and return that user instead.
       console.log('accessToken\n\n');
-      console.log(accessToken);
+      // console.log(accessToken);
       agotoken = accessToken;
       // console.log('\n\nprofile');
       // console.log(profile);
@@ -148,19 +150,20 @@ app.get('/account', ensureAuthenticated, function(req, res) {
 //   });
 // });
 
-app.get('/login', function(req, res, next) {
+app.get('/login', (req, res, next) => {
   passport.authenticate('arcgis', function(err, user, info) {
+    console.log('res for /login');
+    console.log(res);
     if (err) { return next(err); }
     if (!user) { return res.redirect('/login'); }
     req.logIn(user, function(err) {
       if (err) { return next(err); }
       return res.render('login', {
-        user : user
+        user : user.username
       });
       })
-    });
-  })(req, res, next);
-});
+    })(req, res, next);
+  });
 
 
 // GET /auth/arcgis
