@@ -150,7 +150,7 @@ app.get('/account', ensureAuthenticated, function(req, res) {
 //   });
 // });
 
-app.get('/login', (req, res, next) => {
+app.post('/login', (req, res, next) => {
   passport.authenticate('arcgis', function(err, user, info) {
     console.log('res for /login');
     console.log(res);
