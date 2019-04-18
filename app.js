@@ -20,7 +20,7 @@ var cbport = process.env.PORT || "3000";
 // var hurl = encodeURIComponent("/auth/" + cbport + "arcgis/callback");
 var hurl = cbport == '3000' ?
   "http://localhost:3000/auth/arcgis/callback" :
-  "https://agopassport.herokuapp.com:" + cbport + "/auth/arcgis/callback?next=/";
+  "https://agopassport.herokuapp.com:" + cbport + "/auth/arcgis/callback";
 // var hurl = ":" + cbport + "/arcgis/callback";
 // var hurl = "/auth/arcgis/callback";
 
