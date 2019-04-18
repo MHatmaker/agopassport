@@ -69,9 +69,9 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new ArcGISStrategy({
     clientID: ARCGIS_CLIENT_ID,
     clientSecret: ARCGIS_CLIENT_SECRET,
-    callbackURL: hurl,
+    callbackURL: hurl
     // proxy: cbport == '3000' ? false : true,
-    passReqToCallback: true
+    // passReqToCallback: true
     // callbackURL: "http://localhost:3000/auth/arcgis/callback"//,
     //redirect_uri: 'urn:ietf:wg:oauth:2.0:oob'
   },
@@ -120,7 +120,7 @@ console.log(process.env.PORT);
   // persistent login sessions (recommended).
   app.use(passport.initialize());
   app.use(passport.session());
-  // app.use(app.router);
+  // app.use(app.router);  // deprecated, so remove
   app.use(express.static(__dirname + '/public'));
 
 
