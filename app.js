@@ -70,7 +70,7 @@ passport.use(new ArcGISStrategy({
     clientID: ARCGIS_CLIENT_ID,
     clientSecret: ARCGIS_CLIENT_SECRET,
     callbackURL: hurl,
-    proxy: cbport == '3000' ? false : true,
+    // proxy: cbport == '3000' ? false : true,
     passReqToCallback: true
     // callbackURL: "http://localhost:3000/auth/arcgis/callback"//,
     //redirect_uri: 'urn:ietf:wg:oauth:2.0:oob'
