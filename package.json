@@ -2,19 +2,20 @@
   "name": "passport-arcgis-examples-login",
   "version": "0.0.0",
   "dependencies": {
-    "express": "^4.0.0",
-    "morgan": "^1.9.0",
-    "cookie-parser": "^1.4.0",
     "body-parser": "*",
-    "session": "*",
-    "method-override": "*",
-    "request": "*",
-    "express-session": "*",
+    "cookie-parser": "^1.4.0",
+    "cors": "^2.8.5",
     "ejs": "*",
+    "express": "^4.0.0",
+    "express-session": "*",
+    "method-override": "*",
+    "morgan": "^1.9.0",
     "passport": "*",
-    "passport-arcgis": "*"
+    "passport-arcgis": "*",
+    "request": "*",
+    "session": "*"
   },
-  "scripts" : {
+  "scripts": {
     "start": "node app.js"
   }
 }

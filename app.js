@@ -7,8 +7,9 @@ var express = require('express'),
   session = require('session'),
   methodOverride = require('method-override'),
   request = require('request'),
-  ArcGISStrategy = require('passport-arcgis').Strategy;
-  var session = require('express-session');
+  ArcGISStrategy = require('passport-arcgis').Strategy,
+  cors = require('cors'),
+  session = require('express-session');
 
 var ARCGIS_CLIENT_ID = "RIABlR5YsNF9kOcH";
 var ARCGIS_CLIENT_SECRET = "c2be4fb31c054b69842040d6e09df920";
@@ -99,6 +100,9 @@ var app = express();
 console.log("express created, port is:");
 console.log(process.env.PORT);
 
+app.use(cors());
+app.options('*', cors());
+
 // configure Express
 
   app.set('views', __dirname + '/views');
@@ -125,7 +129,7 @@ console.log(process.env.PORT);
 
 
 
-app.get('/', function(req, res) {
+app.get('/', cors(), function(req, res) {
   res.render('index', {
     user: req.user
   });
@@ -258,6 +262,38 @@ app.get('/query', function(req, res) {
     );
 });
 
+app.get('/queryremote', cors(), function(req, res) {
+  console.log('queryremote route');
+  let options =   { // url: 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates',
+    // url : 'http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode',,
+    url : 'http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode?location=-118.58864%2C34.06145&distance=1000&outSR=&f=pjson',
+    // url : 'http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/reverseGeocode',
+    json: true,
+    location: {
+      X: -118.58864,
+      y: 34.06145
+    },
+    distance : 1000,
+    f : 'json',
+    form: {
+      f: 'pjson',
+      token: agotoken,
+      category : 'coffee shop',
+        outFields: 'Place_addr, PlaceName, outSR',
+        maxLocations : 5,
+    }
+  }
+  console.log(options.url);
+
+  request.post(options,
+      function(req2, res2){
+        console.log('return from post');
+        console.log(res2.body);
+        res.send(res2.body);
+      }
+  );
+});
+
 
 app.get('/search', function(req, res) {
   console.log('search route');
@@ -298,7 +334,7 @@ app.get('/search', function(req, res) {
 app.get('/listings', function(req, res) {
   console.log('listings route');
   let options =   {
-    url : 'https://www.arcgis.com/sharing/rest/content/listings?q=arcadia&num=10&f=pjson&restrict=false',
+    url : 'https://www.arcgis.com/sharing/rest/content/listings?q=chicago&num=10&f=pjson&restrict=false',
     json: true
     // form: {
     //   f: 'json',
@@ -328,5 +364,49 @@ app.get('/listings', function(req, res) {
           console.log(error);
           // console.log(response);
         }
+    );
+});
+
+app.get('/listingsremote', cors(), function(req, res) {
+  console.log('listingsremote route');
+  let options =   {
+    url : 'https://www.arcgis.com/sharing/rest/content/listings?q=chicago&num=10&f=pjson&restrict=false',
+    json: true
+    // form: {
+    //   f: 'json',
+    //   q : 'parks',
+    //   token: agotoken,
+    //   category : 'park',
+    //   searchExtent : {
+    //     "xmin": -118.68702,
+    //     "ymin": 34.03076,
+    //     "xmax": -118.68105,
+    //     "ymax": 34.03592,
+    //     "spatialReference":{
+    //       "latestWkid":3857,
+    //       "wkid":102100
+    //     }
+    //   }
+    // }
+  }
+  console.log(options.url);
+
+    request.get(options,
+        function(req2, res2){
+          console.log('query response, body');
+          console.log(res2.body);
+          res.send(res2.body);
+          // console.log(response);
+        }
+    // request.post(options,
+    //     function(error, response, body){
+    //       console.log(agotoken);
+    //       console.log('query response, body');
+    //       console.log(body);
+    //       console.log('response error');
+    //       console.log(error);
+    //       res.send(body);
+    //       // console.log(response);
+    //     }
     );
 });
