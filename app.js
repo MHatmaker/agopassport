@@ -334,7 +334,7 @@ app.get('/search', function(req, res) {
 app.get('/listings', function(req, res) {
   console.log('listings route');
   let options =   {
-    url : 'https://www.arcgis.com/sharing/rest/content/listings?q=chicago&num=10&f=pjson&restrict=false',
+    url : 'https://www.arcgis.com/sharing/rest/content/listings?q=chicago+crime&num=10&f=pjson&restrict=false',
     json: true
     // form: {
     //   f: 'json',
@@ -370,7 +370,8 @@ app.get('/listings', function(req, res) {
 app.get('/listingsremote', cors(), function(req, res) {
   console.log('listingsremote route');
   let options =   {
-    url : 'https://www.arcgis.com/sharing/rest/content/listings?q=chicago&num=10&f=pjson&restrict=false',
+    // url : 'https://darcadian.maps.arcgis.com/home/search.html?q=chicago%20crime&num=10&f=pjson&restrict=false',
+    url : 'https://www.arcgis.com/sharing/rest/search?q=arcadia%20runs&num=10&f=pjson&restrict=false',
     json: true
     // form: {
     //   f: 'json',
