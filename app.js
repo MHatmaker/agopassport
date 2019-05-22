@@ -100,7 +100,7 @@ var app = express();
 console.log("express created, port is:");
 console.log(process.env.PORT);
 
-app.use(cors());
+app.use(cors({origin:'http://localhost:8100', methods: 'GET'}));
 app.options('*', cors());
 
 // configure Express
@@ -126,7 +126,14 @@ app.options('*', cors());
   app.use(passport.session());
   // app.use(app.router);  // deprecated, so remove
   app.use(express.static(__dirname + '/public'));
-
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  });
 
 
 app.get('/', cors(), function(req, res) {
@@ -169,6 +176,21 @@ app.get('/login', (req, res, next) => {
     })(req, res, next);
   });
 
+  app.get('/loginremote', cors(), (req, res, next) => {
+    console.log('node handler for loginremote');
+    passport.authenticate('arcgis', function(err, user, info) {
+      console.log('res for /login');
+      console.log(res);
+      if (err) { return next(err); }
+      if (!user) { return res.redirect('/login'); }
+      req.logIn(user, function(err) {
+        if (err) { return next(err); }
+        return {
+          user : user.username
+        };
+        })
+      })(req, res, next);
+    });
 
 // GET /auth/arcgis
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -181,6 +203,66 @@ app.get('/auth/arcgis',
     // The request will be redirected to ArcGIS for authentication, so this
     // function will not be called.
   });
+
+/*
+app.get('/authremote/arcgis', cors(),
+  // let options =   {
+  //   // url : 'https://darcadian.maps.arcgis.com/home/search.html?q=chicago%20crime&num=10&f=pjson&restrict=false',
+  //   url : 'https://www.arcgis.com/sharing/rest/search?q=arcadia%20runs&num=10&f=pjson&restrict=false',
+  //   json: true
+  // }
+  function(req, res, next) {
+    console.log('/authremote selector');
+    // request.get()
+    passport.authenticate('arcgis', function(err, user, info) {
+    console.log('res for /authremote');
+    console.log(res);
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/login'); }
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      return res.render('login', {
+        user : user.username
+      });
+     })
+    })(req, res, next);
+
+    // The request will be redirected to ArcGIS for authentication, so this
+    // function will not be called.
+  });
+*/
+// app.get('/authremote/arcgis', cors(), (req, res, next) => {
+app.get('/authremote/arcgis', cors(), function(req, res) {
+  console.log("route authremote/arcgis");
+  console.log(ARCGIS_CLIENT_ID);
+  let jresp = null;
+  let frm = {
+        'f': 'json',
+        'client_id': ARCGIS_CLIENT_ID,
+        'client_secret': ARCGIS_CLIENT_SECRET,
+        'grant_type': 'client_credentials',
+        'expiration': '1440'
+      };
+  console.log(frm);
+  request.post({ url: 'https://www.arcgis.com/sharing/rest/oauth2/token/?client_id=' + ARCGIS_CLIENT_ID + '&client_secret=' + ARCGIS_CLIENT_SECRET +  '&grant_type=client_credentials&expiration=1440&redirect_uri=' + hurl},
+  // request.post({ url: 'https://www.arcgis.com/sharing/rest/oauth2/token/'
+  //     json: true,
+  //     form: frm,
+  //     'headers' : {'Content-Type': 'application/x-www-form-urlencoded'}
+  //   },
+    (error, response, body) =>
+    {
+      console.log("returned");
+      console.log(response.body);
+      this.jsresp = JSON.parse(response.body);
+      console.log("\n\ntoken: " + this.jsresp.access_token);
+      console.log("\nexpires_in " + this.jsresp.expires_in);
+      return res.send(jsresp);
+    })
+    console.log("outer return");
+    console.log(this.jsresp);
+    return this.jresp;
+  })
 
 // GET /auth/arcgis/callback
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -198,6 +280,7 @@ app.get('/auth/arcgis/callback',
     // console.log(user);
     // user = thisUser;
     // console.log(res);
+    console.log(res);
     res.redirect('/');
   });
 
@@ -371,24 +454,8 @@ app.get('/listingsremote', cors(), function(req, res) {
   console.log('listingsremote route');
   let options =   {
     // url : 'https://darcadian.maps.arcgis.com/home/search.html?q=chicago%20crime&num=10&f=pjson&restrict=false',
-    url : 'https://www.arcgis.com/sharing/rest/search?q=arcadia%20runs&num=10&f=pjson&restrict=false',
+    url : 'https://www.arcgis.com/sharing/rest/search?q=arcadia%20runs&num=10&f=pjson&restrict=false?token=' + agotoken ,
     json: true
-    // form: {
-    //   f: 'json',
-    //   q : 'parks',
-    //   token: agotoken,
-    //   category : 'park',
-    //   searchExtent : {
-    //     "xmin": -118.68702,
-    //     "ymin": 34.03076,
-    //     "xmax": -118.68105,
-    //     "ymax": 34.03592,
-    //     "spatialReference":{
-    //       "latestWkid":3857,
-    //       "wkid":102100
-    //     }
-    //   }
-    // }
   }
   console.log(options.url);
 
